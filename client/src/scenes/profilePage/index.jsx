@@ -10,6 +10,7 @@ import UserWidget from "scenes/widgets/UserWidget";
 import CreateEventWidget from "scenes/widgets/CreateEventWidget";
 import EventsWidget from "scenes/widgets/EventsWidget";
 import ProfileEditWidget from "scenes/widgets/ProfileEditWidget";
+import CalendarWidget from "scenes/widgets/CalendarWidget";
 
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
@@ -69,6 +70,8 @@ const ProfilePage = () => {
           )}
           <Box m="2rem 0" />
           <FriendListWidget userId={userId} />
+          <Box m="2rem 0" />
+          <CalendarWidget userId={userId} />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}

@@ -29,6 +29,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     dispatch(setPosts({ posts: data }));
   };
 
+  // empty array indicates that the effect will only run once, when component mounts
   useEffect(() => {
     if (isProfile) {
       getUserPosts();
