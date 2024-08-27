@@ -1,3 +1,5 @@
+//TODO: update so it uses Redux for state management. Works for now. 
+
 import React, { useState, useEffect } from 'react';
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
@@ -13,8 +15,8 @@ const CalendarWidget = ({ userId }) => {
 // useEffect hook in React is used to perform side effects in functional components. In this case, it's being used to fetch event data when the component mounts or when the userId changes.
   useEffect(() => {
     const fetchEvents = async () => {
-      try {
-        const response = await fetch(`http://localhost:3001/api/user/events/${userId}`, {
+      try { 
+        const response = await fetch(`http://localhost:3001/events/${userId}/joinedevents`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
@@ -24,7 +26,9 @@ const CalendarWidget = ({ userId }) => {
           throw new Error('Failed to fetch events');
         }
         const data = await response.json();
-        const formattedEvents = data.events.map(event => ({
+
+        // This parses the JSON response and then formats the events to match the structure expected by the Calendar component. It assumes each event has a 1-hour duration.
+        const formattedEvents = data.map(event => ({
           title: event.title,
           start: new Date(event.time),
           end: new Date(moment(event.time).add(1, 'hours')), // Assume 1 hour duration if no end time
@@ -38,7 +42,7 @@ const CalendarWidget = ({ userId }) => {
     };
 
     fetchEvents();
-  }, [userId]);
+  }, [userId]); //The empty array [] as the second argument would make it run only once when the component mounts, but here it has [userId], so it will re-run if userId changes.
 
   const eventStyleGetter = (event, start, end, isSelected) => {
     return {

@@ -1,3 +1,4 @@
+//  Typically, you'd have an authentication middleware that runs before your controller functions. This middleware would verify the user's token and attach the user information to the request object.
 import jwt from "jsonwebtoken";
 
 export const verifyToken = async (req, res, next) => {

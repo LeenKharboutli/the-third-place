@@ -61,6 +61,17 @@ export const getEvents = async (req, res) => {
   }
 };
 
+export const getUserJoinedEvents = async (req, res) => {
+  try {
+    const { userId } = req.params;
+    const query = {"attendees": userId}
+    const events = await Event.find(query);
+    res.status(200).json(events);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
 export const getEvent = async (req, res) => {
   try {
     const { id } = req.params;
@@ -86,6 +97,49 @@ export const updateEvent = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
+export const joinEvent = async (req, res) => {
+  
+  try {
+    // params vs. user? What's in the req object?
+    // how do we know that it's grabbing the correct id? (e.g. the Event id that we're joining?)
+    const { id } = req.params;
+    const { userId } = req.body;
+    const event = await Event.findById(id);
+
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    const attendeeIndex = event.attendees.indexOf(userId);
+
+    if (attendeeIndex > -1) {
+      // this id is just a temp var in the arrow funct right??
+      event.attendees.splice(attendeeIndex, 1);
+    } else {
+      event.attendees.push(userId);
+    }
+
+    // NOTE: not sure why we must save?
+    await event.save();
+
+    // NOTE: not sure what this does tbh
+    const attendees = await Promise.all(
+      event.attendees.map((id) => User.findById(id))
+    );
+    // NOTE: we're still using the User model, so this code should work. 
+    const formattedAttendees = attendees.map(
+      ({ _id, firstName, lastName, occupation, location, picturePath }) => {
+        return { _id, firstName, lastName, occupation, location, picturePath };
+      }
+    );
+    // We need to write a controller that allows the user to join the event
+    res.status(200).json({ ...event.toObject(), attendees: formattedAttendees });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
 
 /* DELETE */
 export const deleteEvent = async (req, res) => {
