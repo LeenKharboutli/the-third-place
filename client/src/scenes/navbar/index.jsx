@@ -57,7 +57,7 @@ const Navbar = () => {
             },
           }}
         >
-          Sociopedia
+          The Third Place
         </Typography>
         {isNonMobileScreens && (
           <FlexBetween
