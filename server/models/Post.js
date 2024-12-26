@@ -18,10 +18,10 @@ const postSchema = mongoose.Schema(
     description: String,
     picturePath: String,
     userPicturePath: String,
-    likes: {
-      type: Map,
-      of: Boolean,
-    },
+    // likes: {
+    //   type: Map,
+    //   of: Boolean,
+    // },
     comments: { //NOTE: should become its own model!
       type: Array,
       default: [],
