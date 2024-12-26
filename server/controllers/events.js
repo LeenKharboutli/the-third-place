@@ -140,7 +140,6 @@ export const joinEvent = async (req, res) => {
   }
 };
 
-
 /* DELETE */
 export const deleteEvent = async (req, res) => {
   try {
