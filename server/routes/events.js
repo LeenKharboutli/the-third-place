@@ -10,11 +10,10 @@ router.post("/", verifyToken, createEvent);
 /* READ */
 router.get("/:userId/events", verifyToken, getUserEvents);
 router.get("/:id", verifyToken, getEvent);
-router.get("/:userId/joinedevents", getUserJoinedEvents)
+router.get("/:userId/joinedevents", verifyToken, getUserJoinedEvents);
 
 /* UPDATE */
 router.patch("/:id", verifyToken, updateEvent);
-// NOTE: not sure what the route should even be?
 router.patch("/:id/join", verifyToken, joinEvent);
 
 /* DELETE */
