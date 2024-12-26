@@ -1,15 +1,15 @@
-// Should this just be the "Next Event" widget? 
-// If you click on this widget, it should take you to a general Events page...
-
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Typography, useTheme } from "@mui/material";
+import { Typography, useTheme, Button } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 import { setEvents } from "state";
 import WidgetWrapper from "components/WidgetWrapper";
 import EventWidget from "./EventWidget";
+import FlexBetween from "components/FlexBetween";
 
 const JoinedEventsWidget = ({ userId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const events = useSelector((state) => state.events) || [];
   const token = useSelector((state) => state.token);
   const { palette } = useTheme();
@@ -32,14 +32,29 @@ const JoinedEventsWidget = ({ userId }) => {
 
   return (
     <WidgetWrapper>
-      <Typography
-        color={palette.neutral.dark}
-        variant="h5"
-        fontWeight="500"
-        sx={{ mb: "1.5rem" }}
-      >
-        My Joined Events
-      </Typography>
+      <FlexBetween>
+        <Typography
+          color={palette.neutral.dark}
+          variant="h5"
+          fontWeight="500"
+          sx={{ mb: "1.5rem" }}
+        >
+          My Joined Events
+        </Typography>
+        <Button
+          onClick={() => navigate("/events")}
+          sx={{
+            color: palette.background.alt,
+            backgroundColor: palette.primary.main,
+            borderRadius: "3rem",
+            "&:hover": {
+              backgroundColor: palette.primary.light,
+            },
+          }}
+        >
+          View All Events
+        </Button>
+      </FlexBetween>
       {Array.isArray(events) && events.map(
         ({
           _id,

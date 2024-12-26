@@ -2,6 +2,7 @@ import { BrowserRouter, Navigate, Routes, Route } from "react-router-dom";
 import HomePage from "scenes/homePage";
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
+import EventsPage from "scenes/eventsPage";
 // React hook
 import { useMemo } from "react";
 // Redux hook
@@ -31,6 +32,10 @@ function App() {
             <Route
               path="/profile/:userId"
               element={isAuth ? <ProfilePage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/events"
+              element={isAuth ? <EventsPage /> : <Navigate to="/" />}
             />
           </Routes>
         </ThemeProvider>
