@@ -1,6 +1,7 @@
 //TODO: update so it uses Redux for state management. Works for now. 
 
 import React, { useState, useEffect } from 'react';
+import { useSelector } from "react-redux";
 import { Calendar, momentLocalizer } from 'react-big-calendar';
 import moment from 'moment';
 import 'react-big-calendar/lib/css/react-big-calendar.css';
@@ -11,17 +12,19 @@ const localizer = momentLocalizer(moment);
 const CalendarWidget = ({ userId }) => {
   const [events, setEvents] = useState([]);
   const theme = useTheme();
+  const token = useSelector((state) => state.token);
 
 // useEffect hook in React is used to perform side effects in functional components. In this case, it's being used to fetch event data when the component mounts or when the userId changes.
   useEffect(() => {
     const fetchEvents = async () => {
       try { 
-        const response = await fetch(`http://localhost:3001/events/${userId}/joinedevents`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        });
+
+        const response = await fetch(`http://localhost:3001/events/${userId}/joinedevents`, 
+          {
+            method: "GET",
+            headers: { Authorization: `Bearer ${token}` },
+          }
+        );
         if (!response.ok) {
           throw new Error('Failed to fetch events');
         }
