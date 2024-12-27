@@ -4,13 +4,20 @@ import {
   FavoriteOutlined,
   ShareOutlined,
 } from "@mui/icons-material";
-import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import { Box, Divider, IconButton, Typography, useTheme, InputBase } from "@mui/material";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPost } from "state";
+
+// maybe add this:
+//           <IconButton onClick={handleAddComment}>
+//             <ChatBubbleOutlineOutlined />
+//           </IconButton>
+//         </FlexBetween>
+
 
 const PostWidget = ({
   postId,
@@ -29,10 +36,33 @@ const PostWidget = ({
   const loggedInUserId = useSelector((state) => state.user._id);
   // const isLiked = Boolean(likes[loggedInUserId]);
   // const likeCount = Object.keys(likes).length;
-
+  const [commentText, setCommentText] = useState(""); // New state for comment input
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
+
+
+  const handleAddComment = async () => {
+    if (!commentText.trim()) return; // Don't add empty comments
+    
+    try {
+      const response = await fetch(`http://localhost:3001/posts/${postId}/comment`, {
+        method: 'PATCH',
+        headers: { 
+          'Authorization': `Bearer ${token}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          comment: commentText
+        })
+      });
+      const updatedPost = await response.json();
+      dispatch(setPost({ post: updatedPost })); // Update the post in Redux state
+      setCommentText(""); // Clear input after posting
+    } catch (error) {
+      console.error("Error adding comment:", error);
+    }
+  };
 
   // const patchLike = async () => {
   //   const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
@@ -68,7 +98,8 @@ const PostWidget = ({
         />
       )}
       <FlexBetween mt="0.25rem">
-        <FlexBetween gap="1rem">
+      <FlexBetween gap="1rem" sx={{ width: "90%", margin: "0 auto" }}>
+        {/* <FlexBetween gap="1rem" > */}
           {/* <FlexBetween gap="0.3rem">
             <IconButton onClick={patchLike}>
               {isLiked ? (
@@ -86,6 +117,41 @@ const PostWidget = ({
             </IconButton>
             <Typography>{comments.length}</Typography>
           </FlexBetween>
+          <InputBase
+            placeholder="Add comment..."
+            onChange={(e) => setCommentText(e.target.value)}
+            value={commentText}
+            onKeyPress={(e) => {
+              if (e.key === 'Enter') {
+                handleAddComment();
+              }
+            }}
+            sx={{
+              // width: "100%",
+              // backgroundColor: palette.neutral.light,
+              // borderRadius: "2rem",
+              // padding: "1rem 2rem",
+
+              width: "100%", // Make it narrower
+              backgroundColor: palette.neutral.light,
+              borderRadius: "0.5rem", // Less rounded corners
+              padding: "0.5rem 1rem", // Less padding
+              margin: "0 auto", // Center the input
+
+            }}
+          />
+
+          {/* <FlexBetween gap="0.3rem">
+            <IconButton onClick={addComment}>
+              {isLiked ? (
+                <FavoriteOutlined sx={{ color: primary }} />
+              ) : (
+                <FavoriteBorderOutlined />
+              )}
+            </IconButton>
+            <Typography>{likeCount}</Typography>
+          </FlexBetween> */}
+
         </FlexBetween>
 
         <IconButton>
@@ -110,3 +176,6 @@ const PostWidget = ({
 };
 
 export default PostWidget;
+
+
+
