@@ -26,12 +26,17 @@ const HomePage = () => {
       >
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <UserWidget userId={_id} picturePath={picturePath} />
+          <Box m="2rem 0" />
+          <FriendListWidget userId={_id} />
+          <Box m="2rem 0" />
         </Box>
         <Box
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
           <MyPostWidget picturePath={picturePath} />
+          {/* not sure */}
+          <Box m="2rem 0" />
           <CreateEventWidget picturePath={picturePath} />
           <PostsWidget userId={_id} />
           <EventsWidget userId={_id} />
@@ -40,8 +45,8 @@ const HomePage = () => {
           <Box flexBasis="26%">
             <JoinedEventsWidget userId={_id} />
             <Box m="2rem 0" />
-            <FriendListWidget userId={_id} />
-            <Box m="2rem 0" />
+            {/* <FriendListWidget userId={_id} />
+            <Box m="2rem 0" /> */}
             <RecommendedPlacesWidget />
           </Box>
         )}
