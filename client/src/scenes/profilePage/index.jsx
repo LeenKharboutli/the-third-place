@@ -50,7 +50,10 @@ const ProfilePage = () => {
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>
           <UserWidget userId={userId} picturePath={user.picturePath} />
           <Box m="2rem 0" />
-          {isOwnProfile && (
+
+          {/* TODO: make the profile fully editable */}
+          
+          {/* {isOwnProfile && (
             <Button
               fullWidth
               onClick={() => setShowEditProfile(!showEditProfile)}
@@ -64,7 +67,7 @@ const ProfilePage = () => {
             >
               {showEditProfile ? "Hide Edit Profile" : "Edit Profile"}
             </Button>
-          )}
+          )} */}
           {isOwnProfile && showEditProfile && (
             <ProfileEditWidget userId={userId} />
           )}
