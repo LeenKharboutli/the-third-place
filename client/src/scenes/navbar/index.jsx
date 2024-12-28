@@ -84,9 +84,10 @@ const Navbar = () => {
               <LightMode sx={{ color: dark, fontSize: "25px" }} />
             )}
           </IconButton>
-          <IconButton onClick={() => navigate("/places")}>
+          {/* HIDING PLACES FUNCTIONALITY FOR NOW... */}
+          {/* <IconButton onClick={() => navigate("/places")}>
             <Place sx={{ fontSize: "25px" }} />
-          </IconButton>
+          </IconButton> */}
           <Message sx={{ fontSize: "25px" }} />
           <Notifications sx={{ fontSize: "25px" }} />
           <Help sx={{ fontSize: "25px" }} />
