@@ -26,6 +26,7 @@ const PlacesPage = () => {
           flexBasis={isNonMobileScreens ? "42%" : undefined}
           mt={isNonMobileScreens ? undefined : "2rem"}
         >
+          {/* <h1>(under construction)</h1> */}
           <PlaceListWidget userId={_id} />
         </Box>
         <Box flexBasis={isNonMobileScreens ? "26%" : undefined}>

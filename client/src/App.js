@@ -3,6 +3,7 @@ import HomePage from "scenes/homePage";
 import LoginPage from "scenes/loginPage";
 import ProfilePage from "scenes/profilePage";
 import EventsPage from "scenes/eventsPage";
+import PlacesPage from "scenes/placesPage";
 // React hook
 import { useMemo } from "react";
 // Redux hook
@@ -36,6 +37,10 @@ function App() {
             <Route
               path="/events"
               element={isAuth ? <EventsPage /> : <Navigate to="/" />}
+            />
+            <Route
+              path="/places"
+              element={isAuth ? <PlacesPage /> : <Navigate to="/" />}
             />
           </Routes>
         </ThemeProvider>

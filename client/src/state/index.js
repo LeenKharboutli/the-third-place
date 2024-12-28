@@ -15,6 +15,8 @@ const initialState = {
   posts: [],
   events: [],
   recommendedPlaces: [],
+  // TODO: should places really be in the Redux state? Not even sure lol 
+  places: [],
 };
 
 // createSlice takes an object with name, initialState, and reducers.
@@ -59,6 +61,13 @@ export const authSlice = createSlice({
       });
       state.posts = updatedPosts;
     },
+
+    //maybe? 
+    setPlaces: (state, action) => {
+      state.places = action.payload.places;
+    },
+
+
     setEvents: (state, action) => {
       state.events = action.payload.events;
     },
@@ -102,6 +111,7 @@ export const {
   deleteEvent,
   setRecommendedPlaces,
   setProfile,
+  setPlaces
 } = authSlice.actions;
 
 // authReducer
