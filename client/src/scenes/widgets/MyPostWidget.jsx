@@ -37,24 +37,42 @@ const MyPostWidget = ({ picturePath }) => {
   const mediumMain = palette.neutral.mediumMain;
   const medium = palette.neutral.medium;
 
-  const handlePost = async () => {
-    const formData = new FormData();
-    formData.append("userId", _id);
-    formData.append("description", post);
-    if (image) {
-      formData.append("picture", image);
-      formData.append("picturePath", image.name);
-    }
+  // maybe? 
+  const posts = useSelector((state) => state.posts);
 
-    const response = await fetch(`http://localhost:3001/posts`, {
-      method: "POST",
-      headers: { Authorization: `Bearer ${token}` },
-      body: formData,
-    });
-    const posts = await response.json();
-    dispatch(setPosts({ posts }));
-    setImage(null);
-    setPost("");
+  const handlePost = async () => {
+    try {
+      const formData = new FormData();
+      formData.append("userId", _id);
+      formData.append("description", post);
+      if (image) {
+        formData.append("picture", image);
+        formData.append("picturePath", image.name);
+      }
+
+      const response = await fetch(`http://localhost:3001/posts`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+        body: formData,
+      });
+      if (!response.ok) {
+        throw new Error('Failed to create post');
+      }
+      // const posts = await response.json();
+      // dispatch(setPosts({ posts }));
+      const newPost = await response.json();
+
+      // Make sure we have a valid picturePath before updating state
+      if (newPost && (!image || newPost.picturePath)) {
+        dispatch(setPosts({ posts: [newPost, ...posts] }));  // Add at beginning // TODO: does this actually add to beginning??
+        
+        setImage(null);
+        setPost("");
+      }
+    } catch (error) {
+      console.error("Error creating post:", error);
+      // Optionally add error handling UI here
+    }
   };
 
   return (

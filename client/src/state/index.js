@@ -51,6 +51,8 @@ export const authSlice = createSlice({
         console.error("user friends non-existent :(");
       }
     },
+
+
     setPosts: (state, action) => {
       state.posts = action.payload.posts;
     },
@@ -60,6 +62,11 @@ export const authSlice = createSlice({
         return post;
       });
       state.posts = updatedPosts;
+    },
+
+    // actually not sure what this does lol
+    addPost: (state, action) => {
+      state.posts.unshift(action.payload.post); // Add to beginning
     },
 
     //maybe? 

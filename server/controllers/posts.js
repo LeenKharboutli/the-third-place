@@ -1,6 +1,7 @@
 import Post from "../models/Post.js";
 import User from "../models/User.js";
 
+
 /* CREATE */
 export const createPost = async (req, res) => {
   try {
@@ -19,8 +20,12 @@ export const createPost = async (req, res) => {
     });
     await newPost.save();
 
-    const post = await Post.find(); //NOTE: frontend with all posts has to be updated with new post. 
-    res.status(201).json(post);
+    // Make sure we're sending back a complete post object
+    const savedPost = await Post.findById(newPost._id);
+
+    // const post = await Post.find(); //NOTE: frontend with all posts has to be updated with new post. 
+    // res.status(201).json(post);
+    res.status(201).json(savedPost); //newPost
   } catch (err) {
     res.status(409).json({ message: err.message });
   }
